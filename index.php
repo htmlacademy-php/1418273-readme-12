@@ -41,6 +41,35 @@ $post_card = [
     ]
 ];
 
+function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
+{
+    $countCharacters = 0; // количество символов
+    $stringWordsTarget = array(); // массив для слов целевого текста
+
+    if(mb_strlen($strTextSource) >= $postCharacterLimit)
+    {
+        $stringWordsSource = explode(" ", $strTextSource);
+        foreach($stringWordsSource as $key => $val)
+        {
+            if(($countCharacters <= $postCharacterLimit) && (($countCharacters+mb_strlen($val)) <= $postCharacterLimit))
+            {
+                $countCharacters += mb_strlen($val);
+                array_push($stringWordsTarget, $val);
+            }
+            else
+            {
+                break;
+            }
+        }
+        $strTextTarget = implode(" ", $stringWordsTarget);
+        return "<p>$strTextTarget...<a class=\"post-text__more-link\" href=\"#\">Читать далее</a><p>";
+    }
+    else
+    {
+        return "<p>$strTextSource</p>";
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -251,9 +280,9 @@ $post_card = [
                 $user_name = $val['user_name'];
                 $user_avatar = $val['user_avatar'];
             ?>
-            <article class="popular__post post <?=$post_type; ?>">
+            <article class="popular__post post <?=$post_type ?>">
                 <header class="post__header">
-                    <h2><?=$post_title; ?></h2>
+                    <h2><?=$post_title ?></h2>
                 </header>
                 <div class="post__main">
                     <!--здесь содержимое карточки-->
@@ -268,7 +297,7 @@ $post_card = [
                         <?php break; ?>
                     <?php case 'post-text': ?>
                         <!--содержимое для поста-текста-->
-                        <p><?=$post_content; ?></p>
+                        <?=trimPostByCharacterLimit($post_content) ?>
                         <?php break; ?>
                     <?php case 'post-photo': ?>
                         <!--содержимое для поста-фото-->
@@ -285,10 +314,10 @@ $post_card = [
                                         <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
                                     </div>
                                     <div class="post-link__info">
-                                        <h3><?=$post_title; ?></h3>
+                                        <h3><?=$post_title ?></h3>
                                     </div>
                                 </div>
-                                <span><?=$post_content; ?></span>
+                                <span><?=$post_content ?></span>
                             </a>
                         </div>
                         <?php break; ?>
@@ -299,10 +328,10 @@ $post_card = [
                         <a class="post__author-link" href="#" title="Автор">
                             <div class="post__avatar-wrapper">
                                 <!--укажите путь к файлу аватара-->
-                                <img class="post__author-avatar" src="img/<?=$user_avatar; ?>" alt="Аватар пользователя">
+                                <img class="post__author-avatar" src="img/<?=$user_avatar ?>" alt="Аватар пользователя">
                             </div>
                             <div class="post__info">
-                                <b class="post__author-name"><?=$user_name; ?></b>
+                                <b class="post__author-name"><?=$user_name ?></b>
                                 <time class="post__time" datetime="">дата</time>
                             </div>
                         </a>
