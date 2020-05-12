@@ -43,30 +43,43 @@ $post_card = [
 
 function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
 {
+
     $countCharacters = 0; // количество символов
+
     $stringWordsTarget = array(); // массив для слов целевого текста
 
-    if(mb_strlen($strTextSource) >= $postCharacterLimit)
+    $strTextSource = preg_replace('/\s+/', ' ', $strTextSource);
+
+    if(mb_strlen($strTextSource) == 1 && $strTextSource == " ")
     {
-        $stringWordsSource = explode(" ", $strTextSource);
-        foreach($stringWordsSource as $key => $val)
-        {
-            if(($countCharacters <= $postCharacterLimit) && (($countCharacters+mb_strlen($val)) <= $postCharacterLimit))
-            {
-                $countCharacters += mb_strlen($val);
-                array_push($stringWordsTarget, $val);
-            }
-            else
-            {
-                break;
-            }
-        }
-        $strTextTarget = implode(" ", $stringWordsTarget);
-        return "<p>$strTextTarget...<a class=\"post-text__more-link\" href=\"#\">Читать далее</a><p>";
+        return "";
     }
     else
     {
-        return "<p>$strTextSource</p>";
+        if(mb_strlen($strTextSource) > $postCharacterLimit)
+        {
+            $stringWordsSource = explode(" ", $strTextSource);
+
+            foreach($stringWordsSource as $key => $val)
+            {
+                $countCharacters += mb_strlen($val);
+
+                if($countCharacters <= $postCharacterLimit)
+                {
+                    $stringWordsTarget[] = $val;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            $strTextTarget = implode(" ", $stringWordsTarget);
+            return "<p>$strTextTarget...<a class=\"post-text__more-link\" href=\"#\">Читать далее</a><p>";
+        }
+        else
+        {
+            return "<p>$strTextSource</p>";
+        }
     }
 }
 
