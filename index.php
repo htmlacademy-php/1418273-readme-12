@@ -14,7 +14,7 @@ $post_card = [
     [
         'post_title' => 'Игра престолов',
         'post_type'  => 'post-text',
-        'post_content' => 'Не могу дождаться начала финального сезона своего любимого сериала!',
+        'post_content' => ' Не могу дождаться начала финального сезона своего любимого сериала!',
         'user_name' => 'Владик',
         'user_avatar' => 'userpic.jpg'
     ],
@@ -41,7 +41,7 @@ $post_card = [
     ]
 ];
 
-function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
+function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 10)
 {
     $countCharacters = 0; // количество символов
     $stringWordsTarget = array(); // массив для слов целевого текста
@@ -51,7 +51,7 @@ function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
         return "";
     }
 
-    $strTextSource = preg_replace('[\s+]', ' ', $strTextSource);
+    $strTextSource = trim(preg_replace('[\s+]', ' ', $strTextSource));
 
     if (mb_strlen($strTextSource) == 1 && $strTextSource == " ")
     {
@@ -61,15 +61,21 @@ function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
     if (mb_strlen($strTextSource) > $postCharacterLimit)
     {
         $stringWordsSource = explode(" ", $strTextSource);
-        foreach ($stringWordsSource as $key => $val)
+
+        $stringWordsSourceLength = count($stringWordsSource);
+
+        for($i = 0; $i < $stringWordsSourceLength; $i++)
         {
-            $countCharacters += mb_strlen($val);
+            $countCharacters += mb_strlen($stringWordsSource[$i]);
+
             if ($countCharacters > $postCharacterLimit)
             {
                 break;
             }
 
-            $stringWordsTarget[] = $val;
+            $stringWordsTarget[] = $stringWordsSource[$i];
+
+            $countCharacters++;
         }
 
         $strTextTarget = implode(" ", $stringWordsTarget);
