@@ -1,6 +1,8 @@
 <?php
 require_once "helpers.php";
 
+date_default_timezone_set('Asia/Yekaterinburg');
+
 $is_auth = rand(0, 1);
 
 $user_name = 'Михаил'; // укажите здесь ваше имя
