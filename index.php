@@ -90,7 +90,35 @@ function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
     return "<p>$strTextSource</p>";
 }
 
-$page_content = include_template('main.php', ['post_card' => $post_card]);
+$postDates = array();
+
+$currentDate = date_create(date_format((new DateTime('now')), 'Y-m-d H:i:s'));
+
+for ($i = 0; $i < count($post_card); $i++)
+{
+    $postDates[$i]['randomDate'] = generate_random_date($i);
+    $postDates[$i]['dateDiff'] = (array) date_diff(date_create($postDates[$i]['randomDate']), date_create(date_format($currentDate, 'Y-m-d H:i:s')));
+    switch(true)
+    {
+        case ($postDates[$i]['dateDiff']['y'] > 0 || $postDates[$i]['dateDiff']['m'] > 0):
+            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['y'] * 12 + $postDates[$i]['dateDiff']['m'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['m'], 'месяц', 'месяца', 'месяцев').' назад';
+            break;
+        case ($postDates[$i]['dateDiff']['d'] >= 7):
+            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['d'] / 7 .' '. get_noun_plural_form(($postDates[$i]['dateDiff']['d'] / 7), 'неделя', 'недели', 'недель').' назад';
+            break;
+        case ($postDates[$i]['dateDiff']['d'] > 0):
+            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['d'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['d'], 'день', 'дня', 'дней').' назад';
+            break;
+        case ($postDates[$i]['dateDiff']['h'] > 0):
+            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['h'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['h'], 'час', 'часа', 'часов').' назад';
+            break;
+        case ($postDates[$i]['dateDiff']['i'] > 0):
+            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['i'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['i'], 'минута', 'минуты', 'минут').' назад';
+            break;
+    }
+}
+
+$page_content = include_template('main.php', ['post_card' => $post_card, 'postDates' => $postDates]);
 
 $layout_content = include_template('layout.php', ['pageContent' => $page_content, 'userName' => $user_name, 'titlePage' => 'readme: популярное']);
 

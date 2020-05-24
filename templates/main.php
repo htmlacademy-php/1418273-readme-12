@@ -86,14 +86,12 @@
     <div class="popular__posts">
         <?php foreach($post_card as $key => $val ): ?>
             <?php
-                $post_array_key = $key;
                 $post_title = strip_tags($val['post_title']);
                 $post_type = strip_tags($val['post_type']);
                 $post_content = htmlspecialchars($val['post_content']);
                 $user_name = strip_tags($val['user_name']);
                 $user_avatar = strip_tags($val['user_avatar']);
-                $post_date = generate_random_date($post_array_key);
-                $datesub = date_diff(date_create($post_date), date_create(date_format((new DateTime('now')), 'Y-m-d H:i:s')));
+                $post_dates = $postDates[$key];
             ?>
             <article class="popular__post post <?=$post_type ?>">
                 <header class="post__header">
@@ -147,27 +145,8 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?=$user_name ?></b>
-                                <time title="<?=date_format((new DateTime($post_date)), 'Y-m-d H:i')?>" class="post__time" datetime="<?=date_format((new DateTime($post_date)), 'Y-m-d H:i:s')?>">
-                                    <?php
-                                        switch(true)
-                                        {
-                                        case ($datesub->y > 0 || $datesub->m > 0):
-                                        print($datesub->y * 12 + $datesub->m .' '. get_noun_plural_form($datesub->m, 'месяц', 'месяца', 'месяцев'));
-                                        break;
-                                        case ($datesub->d >= 7):
-                                        print($datesub->d / 7 .' '. get_noun_plural_form(($datesub->d / 7), 'неделя', 'недели', 'недель'));
-                                        break;
-                                        case ($datesub->d > 0):
-                                        print($datesub->d .' '. get_noun_plural_form($datesub->d, 'день', 'дня', 'дней'));
-                                        break;
-                                        case ($datesub->h > 0):
-                                        print($datesub->h .' '. get_noun_plural_form($datesub->h, 'час', 'часа', 'часов'));
-                                        break;
-                                        case ($datesub->i > 0):
-                                        print($datesub->i .' '. get_noun_plural_form($datesub->i, 'минута', 'минуты', 'минут'));
-                                        break;
-                                        }
-                                    ?>
+                                <time title="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i')?>" class="post__time" datetime="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i:s')?>">
+                                    <?=$post_dates['dateDiffWords'] ?>
                                 </time>
                             </div>
                         </a>
