@@ -84,13 +84,14 @@
         </div>
     </div>
     <div class="popular__posts">
-        <?php foreach($post_card as $val ): ?>
+        <?php foreach($post_card as $key => $val ): ?>
             <?php
-            $post_title = strip_tags($val['post_title']);
-            $post_type = strip_tags($val['post_type']);
-            $post_content = htmlspecialchars($val['post_content']);
-            $user_name = strip_tags($val['user_name']);
-            $user_avatar = strip_tags($val['user_avatar']);
+                $post_title = strip_tags($val['post_title']);
+                $post_type = strip_tags($val['post_type']);
+                $post_content = htmlspecialchars($val['post_content']);
+                $user_name = strip_tags($val['user_name']);
+                $user_avatar = strip_tags($val['user_avatar']);
+                $post_dates = $postDates[$key];
             ?>
             <article class="popular__post post <?=$post_type ?>">
                 <header class="post__header">
@@ -144,7 +145,9 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?=$user_name ?></b>
-                                <time class="post__time" datetime="">дата</time>
+                                <time title="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i')?>" class="post__time" datetime="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i:s')?>">
+                                    <?=$post_dates['dateDiffWords'] ?>
+                                </time>
                             </div>
                         </a>
                     </div>
