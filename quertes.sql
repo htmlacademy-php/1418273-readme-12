@@ -1,5 +1,5 @@
 /* Добавление типов контента*/
-INSERT content_types (title, icon_class_name)
+INSERT INTO content_types (title, icon_class_name)
 VALUES
     ('Текст', 'text'),
     ('Цитата', 'quote'),
@@ -8,39 +8,39 @@ VALUES
     ('Ссылка', 'link');
 
 /* Добавление пользователей*/
-INSERT users (registration_date, email, login, password)
+INSERT INTO users (email, login, password)
 VALUES
-    (now(), 'name_email1@gmail.com', 'user_login1', 'user_password1'),
-    (now(), 'name_email2@gmail.com', 'user_login2', 'user_password2'),
-    (now(), 'name_email3@gmail.com', 'user_login3', 'user_password3'),
-    (now(), 'name_email4@gmail.com', 'user_login4', 'user_password4'),
-    (now(), 'name_email5@gmail.com', 'user_login5', 'user_password5');
+    ('name_email1@gmail.com', 'user_login1', 'user_password1'),
+    ('name_email2@gmail.com', 'user_login2', 'user_password2'),
+    ('name_email3@gmail.com', 'user_login3', 'user_password3'),
+    ('name_email4@gmail.com', 'user_login4', 'user_password4'),
+    ('name_email5@gmail.com', 'user_login5', 'user_password5');
 
 /* Добавление существующих постов */
-INSERT posts (date_create, title, content, quote_author, image, user_id, content_type_id)
+INSERT INTO posts (title, content, quote_author, image, user_id, content_type_id)
 VALUES
-    (now(), 'Цитата', 'Мы в жизни любим только раз, а после ищем лишь похожих', 'Лариса', 'userpic-larisa-small.jpg', 1, 2),
-    (now(), 'Игра престолов', 'Не могу дождаться начала финального сезона своего любимого сериала!', 'Владик', 'userpic.jpg', 1, 1),
-    (now(), 'Наконец, обработал фотки!', 'rock-medium.jpg', 'Виктор', 'userpic-mark.jpg', 1, 3),
-    (now(), 'Моя мечта', 'coast-medium.jpg', 'Лариса', 'userpic-mark.jpg', 2, 3),
-    (now(), 'Лучшие курсы', 'www.htmlacademy.rug', 'Владик', 'userpic.jpg', 2, 5);
+    ('Цитата', 'Мы в жизни любим только раз, а после ищем лишь похожих', 'Лариса', 'userpic-larisa-small.jpg', 1, 2),
+    ('Игра престолов', 'Не могу дождаться начала финального сезона своего любимого сериала!', 'Владик', 'userpic.jpg', 1, 1),
+    ('Наконец, обработал фотки!', 'rock-medium.jpg', 'Виктор', 'userpic-mark.jpg', 1, 3),
+    ('Моя мечта', 'coast-medium.jpg', 'Лариса', 'userpic-mark.jpg', 2, 3),
+    ('Лучшие курсы', 'www.htmlacademy.rug', 'Владик', 'userpic.jpg', 2, 5);
 
 /* Добавление комментариев к постам */
-INSERT comments (date_create, content, user_id, post_id)
+INSERT INTO comments (content, user_id, post_id)
 VALUES
-    (now(), 'Комментарий1 к цитате', 1, 1),
-    (now(), 'Комментарий2 к цитате', 2, 1),
-    (now(), 'Комментарий1 к игре престолов', 1, 2),
-    (now(), 'Комментарий2 к игре престолов', 2, 2),
-    (now(), 'Комментарий1 к обработке фото', 1, 3),
-    (now(), 'Комментарий2 к обработке фото', 2, 3),
-    (now(), 'Комментарий1 к мечте', 1, 4),
-    (now(), 'Комментарий2 к мечте', 2, 4),
-    (now(), 'Комментарий1 к лучшим курсам', 1, 4),
-    (now(), 'Комментарий2 к лучшим курсам', 2, 4);
+    ('Комментарий1 к цитате', 1, 1),
+    ('Комментарий2 к цитате', 2, 1),
+    ('Комментарий1 к игре престолов', 1, 2),
+    ('Комментарий2 к игре престолов', 2, 2),
+    ('Комментарий1 к обработке фото', 1, 3),
+    ('Комментарий2 к обработке фото', 2, 3),
+    ('Комментарий1 к мечте', 1, 4),
+    ('Комментарий2 к мечте', 2, 4),
+    ('Комментарий1 к лучшим курсам', 1, 4),
+    ('Комментарий2 к лучшим курсам', 2, 4);
 
 /* Добавить лайк к посту */
-INSERT likes (user_id, post_id)
+INSERT INTO likes (user_id, post_id)
 VALUES
     (3, 1),
     (4, 1),
@@ -53,7 +53,7 @@ VALUES
 
 
 /* подписаться на пользователя */
-INSERT subscriptions (author_user_id, subscription_user_id)
+INSERT INTO subscriptions (author_user_id, subscription_user_id)
 VALUES
     (3, 1),
     (3, 2),
@@ -121,7 +121,7 @@ SELECT  p.date_create,
         p.site,
         p.number_views
         c.date_create AS comment_date,
-        c.content AS `comment`,
+        c.content AS comment,
         u.login AS user_login
 FROM comments AS c
 INNER JOIN posts AS p ON c.post_id = p.id
