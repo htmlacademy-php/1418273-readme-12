@@ -5,8 +5,8 @@ USE `db_posts`;
 CREATE TABLE `users` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `registration_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    `email` VARCHAR(20) NOT NULL,
-    `login` VARCHAR(20) NOT NULL,
+    `email` VARCHAR(50) NOT NULL,
+    `login` VARCHAR(50) NOT NULL,
     `password` VARCHAR(50) NOT NULL,
     `avatar` VARCHAR(50) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -37,7 +37,7 @@ CREATE TABLE `posts` (
     CONSTRAINT `posts_users_fk`
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     CONSTRAINT `posts_content_types_fk`
-    FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`content_type_id`) REFERENCES `content_types` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `comments` (
