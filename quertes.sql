@@ -93,40 +93,16 @@ SELECT  p.date_create,
         p.video,
         p.site,
         p.number_views
-        u.login AS user_login
 FROM posts AS p
-INNER JOIN users AS u ON p.user_id = u.id
-WHERE u.id = 1
-
-SELECT  p.date_create,
-        p.title,
-        p.content,
-        p.quote_author,
-        p.image,
-        p.video,
-        p.site,
-        p.number_views
-        u.login AS user_login
-FROM posts AS p
-INNER JOIN users AS u ON p.user_id = u.id
-WHERE u.id = 2
+WHERE p.user_id = 1
 
 /* Получить список комментариев для одного поста (1), в комментариях должен быть логин пользователя */
-SELECT  p.date_create,
-        p.title,
-        p.content,
-        p.quote_author,
-        p.image,
-        p.video,
-        p.site,
-        p.number_views
-        c.date_create AS comment_date,
+SELECT  c.date_create AS comment_date,
         c.content AS comment,
         u.login AS user_login
 FROM comments AS c
-INNER JOIN posts AS p ON c.post_id = p.id
 INNER JOIN users AS u ON c.user_id = u.id
-WHERE p.id = 1
+WHERE c.post_id = 1
 
 
 
