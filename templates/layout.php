@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?=$titlePage ?></title>
+    <title><?=$title_page ?></title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body class="page">
@@ -65,7 +65,7 @@
                                 <div class="header__profile-name">
                                 <span>
                                     <!--здесь должно быть имя пользователя-->
-                                    <?=$userName ?>
+                                    <?=$user_name ?>
                                 </span>
                                     <svg class="header__link-arrow" width="10" height="6">
                                         <use xlink:href="#icon-arrow-right-ad"></use>
@@ -112,7 +112,7 @@
     </div>
 </header>
 
-<section class="page__main page__main--popular"><?=$pageContent ?></section>
+<section class="page__main page__main--popular"><?=$page_content ?></section>
 
 <footer class="footer">
     <div class="footer__wrapper">

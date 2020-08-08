@@ -15,13 +15,13 @@ VALUES
     ('name_email3@gmail.com', 'Виктор', 'user_password3', 'userpic-mark.jpg');
 
 /* Добавление существующих постов */
-INSERT posts (date_create, title, content, quote_author, image, site, number_views, user_id, content_type_id)
+INSERT INTO posts (title, content, quote_author, image, site, number_views, user_id, content_type_id)
 VALUES
-    (now(), 'Цитата', 'Мы в жизни любим только раз, а после ищем лишь похожих', 'Неизвестный автор', NULL, NULL, 7, 1, 2),
-    (now(), 'Игра престолов', 'Не могу дождаться начала финального сезона своего любимого сериала!', NULL, NULL, NULL, 5, 2, 1),
-    (NOW(), 'Наконец, обработал фотки!', NULL, NULL, 'rock-medium.jpg', NULL, 2, 3, 3),
-    (now(), 'Моя мечта', NULL, NULL, 'coast-medium.jpg', NULL, 9, 1, 3),
-    (now(), 'Лучшие курсы', 'Лучшие курсs', NULL, NULL, 'www.htmlacademy.ru', 8, 2, 5);
+    ('Цитата', 'Мы в жизни любим только раз, а после ищем лишь похожих', 'Неизвестный автор', NULL, NULL, 7, 1, 2),
+    ('Игра престолов', 'Не могу дождаться начала финального сезона своего любимого сериала!', NULL, NULL, NULL, 5, 2, 1),
+    ('Наконец, обработал фотки!', NULL, NULL, 'rock-medium.jpg', NULL, 2, 3, 3),
+    ('Моя мечта', NULL, NULL, 'coast-medium.jpg', NULL, 9, 1, 3),
+    ('Лучшие курсы', 'Лучшие курсs', NULL, NULL, 'www.htmlacademy.ru', 8, 2, 5);
 
 /* Добавление комментариев к постам */
 INSERT INTO comments (content, user_id, post_id)

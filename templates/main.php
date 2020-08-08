@@ -44,50 +44,36 @@
                     <?php
                         $title_content_type = strip_tags($val['title']);
                         $class_name_content_type = strip_tags($val['icon_class_name']);
+                        switch($class_name_content_type) {
+                            case 'photo':
+                                $icon_width = 22;
+                                $icon_height = 18;
+                                break;
+                            case 'video':
+                                $icon_width = 24;
+                                $icon_height = 16;
+                                break;
+                            case 'text':
+                                $icon_width = 20;
+                                $icon_height = 21;
+                                break;
+                            case 'quote':
+                                $icon_width = 21;
+                                $icon_height = 20;
+                                break;
+                            case 'link':
+                                $icon_width = 21;
+                                $icon_height = 18;
+                                break;
+                        }
                     ?>
                     <li class="popular__filters-item filters__item">
-                    <?php switch($class_name_content_type):
-                        case 'photo': ?>
-                                <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
-                                    <span class="visually-hidden"><?=$title_content_type ?></span>
-                                    <svg class="filters__icon" width="22" height="18">
-                                        <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
-                                    </svg>
-                                </a>
-                            <?php break; ?>
-                        <?php case 'video': ?>
-                                <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
-                                    <span class="visually-hidden"><?=$title_content_type ?></span>
-                                    <svg class="filters__icon" width="24" height="16">
-                                        <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
-                                    </svg>
-                                </a>
-                            <?php break; ?>
-                        <?php case 'text': ?>
-                                <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
-                                    <span class="visually-hidden"><?=$title_content_type ?></span>
-                                    <svg class="filters__icon" width="20" height="21">
-                                        <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
-                                    </svg>
-                                </a>
-                            <?php break; ?>
-                        <?php case 'quote': ?>
-                                <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
-                                    <span class="visually-hidden"><?=$title_content_type ?></span>
-                                    <svg class="filters__icon" width="21" height="20">
-                                        <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
-                                    </svg>
-                                </a>
-                            <?php break; ?>
-                        <?php case 'link': ?>
-                                <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
-                                    <span class="visually-hidden"><?=$title_content_type ?></span>
-                                    <svg class="filters__icon" width="21" height="18">
-                                        <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
-                                    </svg>
-                                </a>
-                            <?php break; ?>
-                    <?php endswitch; ?>
+                        <a class="filters__button filters__button--<?=$class_name_content_type ?> button" href="#">
+                            <span class="visually-hidden"><?=$title_content_type ?></span>
+                            <svg class="filters__icon" width=<?=$icon_width ?> height=<?=$icon_height  ?>>
+                                <use xlink:href="#icon-filter-<?=$class_name_content_type ?>"></use>
+                            </svg>
+                        </a>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -105,7 +91,8 @@
                 $post_site = strip_tags($val['site']);
                 $user_name = strip_tags($val['user_login']);
                 $user_avatar = strip_tags($val['user_avatar']);
-                $post_dates = $postDates[$key];
+                $post_date = strip_tags($val['date_create']);
+                $post_date_diff_words = strip_tags($val['date_diff_words']);
             ?>
             <article class="popular__post post post-<?=$post_type ?>">
                 <header class="post__header">
@@ -159,8 +146,8 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?=$user_name ?></b>
-                                <time title="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i')?>" class="post__time" datetime="<?=date_format((new DateTime($post_dates['randomDate'])), 'Y-m-d H:i:s')?>">
-                                    <?=$post_dates['dateDiffWords'] ?>
+                                <time title="<?=date_format((new DateTime($post_date)), 'Y-m-d H:i')?>" class="post__time" datetime="<?=date_format((new DateTime($post_date)), 'Y-m-d H:i:s')?>">
+                                    <?=$post_date_diff_words ?>
                                 </time>
                             </div>
                         </a>

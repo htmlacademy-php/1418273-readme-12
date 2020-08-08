@@ -6,7 +6,7 @@ date_default_timezone_set('Asia/Yekaterinburg');
 /** @var $is_auth integer случайное число из диапазона от 0 до 1 для показа головной навигации */
 $is_auth = rand(0, 1);
 
-/** @var $user_name имя пользователя (свое) */
+/** @var $user_name string имя пользователя (свое) */
 $user_name = 'Михаил'; // укажите здесь ваше имя
 
 /** @var $host string имя хоста (IP адрес) */
@@ -92,62 +92,62 @@ function getData($connection, $query): array
 /**
  * Показ содержимого в карточках текстовых постов
  *
- * @param $strTextSource string исходный текст
- * @param int $postCharacterLimit число символов, до которых надо обрезать текст. Значение по умолчанию: 300
+ * @param $str_text_source string исходный текст
+ * @param int $post_character_limit число символов, до которых надо обрезать текст. Значение по умолчанию: 300
  *
  * @return string текствовое содержимое поста
  */
-function trimPostByCharacterLimit($strTextSource, $postCharacterLimit = 300)
+function trimPostByCharacterLimit($str_text_source, $post_character_limit = 300)
 {
-    /** @var $countCharacters integer количество символов для сравнения с лимитом на длину текста */
-    $countCharacters = 0;
+    /** @var $count_characters integer количество символов для сравнения с лимитом на длину текста */
+    $count_characters = 0;
 
-    /** @var $stringWordsTarget array массив для слов целевого текста */
-    $stringWordsTarget = array();
+    /** @var $string_words_target array массив для слов целевого текста */
+    $string_words_target = array();
 
-    if(empty($strTextSource))
+    if(empty($str_text_source))
     {
         return "";
     }
 
-    /** @var $strTextSource string текст для поста после замены всех пробельных символов на один пробельный символ */
-    $strTextSource = trim(preg_replace('[\s+]', ' ', $strTextSource));
+    /** @var $str_text_source string текст для поста после замены всех пробельных символов на один пробельный символ */
+    $str_text_source = trim(preg_replace('[\s+]', ' ', $str_text_source));
 
-    if (mb_strlen($strTextSource) == 1 && $strTextSource == " ")
+    if (mb_strlen($str_text_source) == 1 && $str_text_source == " ")
     {
         return "";
     }
 
-    if (mb_strlen($strTextSource) > $postCharacterLimit)
+    if (mb_strlen($str_text_source) > $post_character_limit)
     {
 
-        /** @var $stringWordsSource array массив строк, разделенных пробелом  */
-        $stringWordsSource = explode(" ", $strTextSource);
+        /** @var $string_words_source array массив строк, разделенных пробелом  */
+        $string_words_source = explode(" ", $str_text_source);
 
-        /** @var $stringWordsSourceLength integer количество элементов в массиве */
-        $stringWordsSourceLength = count($stringWordsSource);
+        /** @var $string_words_source_length integer количество элементов в массиве */
+        $string_words_source_length = count($string_words_source);
 
-        for($i = 0; $i < $stringWordsSourceLength; $i++)
+        for($i = 0; $i < $string_words_source_length; $i++)
         {
-            $countCharacters += mb_strlen($stringWordsSource[$i]);
+            $count_characters += mb_strlen($string_words_source[$i]);
 
-            if ($countCharacters > $postCharacterLimit)
+            if ($count_characters > $post_character_limit)
             {
                 break;
             }
 
-            $stringWordsTarget[] = $stringWordsSource[$i];
+            $string_words_target[] = $string_words_source[$i];
 
-            $countCharacters++;
+            $count_characters++;
         }
 
-        /** @var $strTextTarget string итоговый вариант текста для поста */
-        $strTextTarget = implode(" ", $stringWordsTarget);
+        /** @var $str_text_target string итоговый вариант текста для поста */
+        $str_text_target = implode(" ", $string_words_target);
 
-        return "<p>$strTextTarget...</p><a class=\"post-text__more-link\" href=\"#\">Читать далее</a>";
+        return "<p>$str_text_target...</p><a class=\"post-text__more-link\" href=\"#\">Читать далее</a>";
     }
 
-    return "<p>$strTextSource</p>";
+    return "<p>$str_text_source</p>";
 }
 
 /** @var $post_card array результат запроса постов в виде ассоциативного массива */
@@ -158,41 +158,41 @@ $post_content_type = getData($connection_mysql_server, $list_content_types);
 
 closeConnection($connection_mysql_server);
 
-/** @var $postDates array даты постов */
-$postDates = array();
+/** @var $date_diff array интервалы (количество лет, дней, часов и минут) разницы между датой публикации поста и текущей датой */
+$date_diff = array();
 
-/** @var $currentDate DateTime текущая дата */
-$currentDate = date_create(date_format((new DateTime('now')), 'Y-m-d H:i:s'));
+/** @var $current_date DateTime текущая дата */
+$current_date = date_create(date_format((new DateTime('now')), 'Y-m-d H:i:s'));
 
 for ($i = 0; $i < count($post_card); $i++)
 {
-    $postDates[$i]['randomDate'] = generate_random_date($i);
-    $postDates[$i]['dateDiff'] = (array) date_diff(date_create($postDates[$i]['randomDate']), date_create(date_format($currentDate, 'Y-m-d H:i:s')));
+    $date_diff = (array) date_diff(date_create($post_card[$i]['date_create']), date_create(date_format($current_date, 'Y-m-d H:i:s')));
+    print($date_diff['y']);
     switch(true)
     {
-        case ($postDates[$i]['dateDiff']['y'] > 0 || $postDates[$i]['dateDiff']['m'] > 0):
-            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['y'] * 12 + $postDates[$i]['dateDiff']['m'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['m'], 'месяц', 'месяца', 'месяцев').' назад';
+        case ($date_diff['y'] > 0 || $date_diff['m'] > 0):
+            $post_card[$i]['date_diff_words'] = $date_diff['y'] * 12 + $date_diff['m'] .' '. get_noun_plural_form($date_diff['m'], 'месяц', 'месяца', 'месяцев').' назад';
             break;
-        case ($postDates[$i]['dateDiff']['d'] >= 7):
-            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['d'] / 7 .' '. get_noun_plural_form(($postDates[$i]['dateDiff']['d'] / 7), 'неделя', 'недели', 'недель').' назад';
+        case ($date_diff['d'] >= 7):
+            $post_card[$i]['date_diff_words'] = $date_diff['d'] / 7 .' '. get_noun_plural_form(($date_diff['d'] / 7), 'неделя', 'недели', 'недель').' назад';
             break;
-        case ($postDates[$i]['dateDiff']['d'] > 0):
-            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['d'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['d'], 'день', 'дня', 'дней').' назад';
+        case ($date_diff['d'] > 0):
+            $post_card[$i]['date_diff_words'] = $date_diff['d'] .' '. get_noun_plural_form($date_diff['d'], 'день', 'дня', 'дней').' назад';
             break;
-        case ($postDates[$i]['dateDiff']['h'] > 0):
-            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['h'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['h'], 'час', 'часа', 'часов').' назад';
+        case ($date_diff['h'] > 0):
+            $post_card[$i]['date_diff_words'] = $date_diff['h'] .' '. get_noun_plural_form($date_diff['h'], 'час', 'часа', 'часов').' назад';
             break;
-        case ($postDates[$i]['dateDiff']['i'] > 0):
-            $postDates[$i]['dateDiffWords'] = $postDates[$i]['dateDiff']['i'] .' '. get_noun_plural_form($postDates[$i]['dateDiff']['i'], 'минута', 'минуты', 'минут').' назад';
+        case ($date_diff['i'] > 0):
+            $post_card[$i]['date_diff_words'] = $date_diff['i'] .' '. get_noun_plural_form($date_diff['i'], 'минута', 'минуты', 'минут').' назад';
             break;
     }
 }
 
 /** @var $page_content string итоговый HTML контент для выводов постов */
-$page_content = include_template('main.php', ['post_card' => $post_card, 'postDates' => $postDates, 'post_content_type' => $post_content_type]);
+$page_content = include_template('main.php', ['post_card' => $post_card, 'post_content_type' => $post_content_type]);
 
 /** @var $layout_content string итоговый HTML контент для страницы компоновки  */
-$layout_content = include_template('layout.php', ['pageContent' => $page_content, 'userName' => $user_name, 'titlePage' => 'readme: популярное']);
+$layout_content = include_template('layout.php', ['page_content' => $page_content, 'user_name' => $user_name, 'title_page' => 'readme: популярное']);
 
 print($layout_content);
 
